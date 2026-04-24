@@ -1,7 +1,8 @@
-venv/
 .env
+.idea/
+logs/
 run_logs/
 outputs/
-logs/
-_pycache_/
-.idea
+
+__pycache__/
+*.pyc
