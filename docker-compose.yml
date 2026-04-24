@@ -1,0 +1,53 @@
+version: "3.9"
+services:
+  research_agent:
+    build: .
+    command: python -m Research_Agent.Research
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8001"
+  writer_agent:
+    build: .
+    command: python -m Writer_Agent.Writer
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    volumes:
+      - .:/app
+    ports:
+      - "8002:8002"
+  editor_agent:
+    build: .
+    command: python -m Editor_Agent.Editor
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    volumes:
+      - .:/app
+    ports:
+      - "8003:8003"
+  orchestrator:
+    build: .
+    command: python -m Orchestration_Agent.orchestrator_a2a
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - research_agent
+      - writer_agent
+      - editor_agent
+  client:
+    build: .
+    command: streamlit run app.py
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    volumes:
+      - .:/app
+    ports:
+      - "8501:8501"
+    depends_on:
+      - orchestrator

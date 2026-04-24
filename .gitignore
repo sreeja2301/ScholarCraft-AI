@@ -1,0 +1,7 @@
+venv/
+.env
+run_logs/
+outputs/
+logs/
+_pycache_/
+.idea
